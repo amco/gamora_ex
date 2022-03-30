@@ -17,7 +17,8 @@ end
 
 ## Configuration
 
-Add the following to `config/config.exs`:
+To configure the library use the `config/config.exs` to define `host`,
+`client_id` and `client_secret`. It will end up looking something like:
 
 ```elixir
   config :my_app, :gamora,
@@ -25,7 +26,7 @@ Add the following to `config/config.exs`:
       host: "https://authserver.com",
       client_id: "MY_APP_CLIENT_ID",
       client_secret: "MY_APP_CLIENT_SECRET"
-  ]
+    ]
 ```
 
 ## Usage
@@ -33,7 +34,7 @@ Add the following to `config/config.exs`:
 ### Protected Routes
 
 Use the plug `Gamora.Plugs.AuthenticatedUser` in your protected routes.
-This will try to get the access token from cookies and validate it against
+This will get the access token from cookies and validate it against
 the authorization server.
 
 ```elixir
@@ -56,9 +57,9 @@ defmodule MyAppWeb.Router do
 end
 ```
 
-If your app is an API you'll need to add `format: :json` to the plug
-options. It will try to find the access token in the request header
-`Authorization: Bearer <access_token>`.
+If your app requires json response you'll need to add `format: :json`
+to the plug options. It will get the access token from the request
+header `Authorization: Bearer <access_token>`.
 
 ```elixir
 defmodule MyAppWeb.Router do
@@ -72,6 +73,15 @@ defmodule MyAppWeb.Router do
 
   # ... routes
 end
+```
+
+## Testing
+
+To avoid hitting your authorization server while tests are running, you
+can use the `Gamora.Adapters.Mock` adapter in your `config/test.exs`:
+
+```elixir
+  config :my_app, :gamora, adapter: Gamora.Adapters.Mock
 ```
 
 Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)

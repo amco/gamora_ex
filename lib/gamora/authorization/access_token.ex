@@ -9,9 +9,13 @@ defmodule Gamora.Authorization.AccessToken do
   defp app_name(), do: Mix.Project.get!().project()[:app]
 
   defp authorization_request(token) do
-    HTTPoison.post(url(), data(token), [
+    adapter().post(url(), data(token), [
       {"Content-Type", "application/json"}
     ])
+  end
+
+  defp adapter do
+    authorization_server_config(:adapter)
   end
 
   defp url do
