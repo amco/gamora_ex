@@ -1,4 +1,4 @@
-# Gamora OIDC Relying Party
+# Gamora - OIDC Relying Party
 
 Gamora aims to provide most of the functionality that is commonly
 required in an OpenID Connect Relying Party. An OIDC Relying Party is
@@ -29,8 +29,8 @@ To configure the library use the `config/config.exs` to define `host`,
       host: "https://oidc.com",
       client_id: "MY_APP_CLIENT_ID",
       client_secret: "MY_APP_CLIENT_SECRET",
-      token_path: "/oauth/token" # This is the default
-      introspect_path: "/oauth/introspect", # This is the default
+      token_path: "/oauth/token", # This is the default
+      introspect_path: "/oauth/introspect" # This is the default
     ]
 ```
 
