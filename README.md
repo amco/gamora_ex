@@ -1,11 +1,14 @@
 # Gamora
 
-**TODO: Add description**
+This dependency aims to provide most of the functionality required to
+create a OIDC Relying Party.
+
+An OIDC Relying Party is an OAuth 2.0 Client application that requires
+user authentication and claims from an OpenID Connect Provider.
 
 ## Installation
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `gamora` to your list of dependencies in `mix.exs`:
+To use 'Gamora' add the dependency to your deps in `mix.exs`:
 
 ```elixir
 def deps do
@@ -22,8 +25,8 @@ To configure the library use the `config/config.exs` to define `host`,
 
 ```elixir
   config :my_app, :gamora,
-    authorization_server: [
-      host: "https://authserver.com",
+    identity_provider: [
+      host: "https://oidc.com",
       client_id: "MY_APP_CLIENT_ID",
       client_secret: "MY_APP_CLIENT_SECRET"
     ]
@@ -35,7 +38,7 @@ To configure the library use the `config/config.exs` to define `host`,
 
 Use the plug `Gamora.Plugs.AuthenticatedUser` in your protected routes.
 This will get the access token from cookies and validate it against
-the authorization server.
+the IDP (OIDC Identity Provider).
 
 ```elixir
 defmodule MyAppWeb.Router do
@@ -77,7 +80,7 @@ end
 
 ## Testing
 
-To avoid hitting your authorization server while tests are running, you
+To avoid hitting the OpenID Provider while tests are running, you
 can use the `Gamora.Adapters.Mock` adapter in your `config/test.exs`:
 
 ```elixir

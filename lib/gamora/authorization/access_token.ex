@@ -6,8 +6,6 @@ defmodule Gamora.Authorization.AccessToken do
     |> process_response()
   end
 
-  defp app_name(), do: Mix.Project.get!().project()[:app]
-
   defp authorization_request(token) do
     adapter().post(url(), data(token), [
       {"Content-Type", "application/json"}
@@ -15,26 +13,26 @@ defmodule Gamora.Authorization.AccessToken do
   end
 
   defp adapter do
-    authorization_server_config(:adapter)
+    identity_provider(:adapter)
   end
 
   defp url do
-    authorization_server_config(:host)
+    identity_provider(:host)
     |> Kernel.<>("/oauth/introspect")
   end
 
-  defp authorization_server_config(config) do
-    app_name()
+  defp identity_provider(config) do
+    Mix.Project.get!().project()[:app]
     |> Application.fetch_env!(:gamora)
-    |> Keyword.fetch!(:authorization_server)
+    |> Keyword.fetch!(:identity_provider)
     |> Keyword.fetch!(config)
   end
 
   defp data(token) do
     %{
       token: token,
-      client_id: authorization_server_config(:client_id),
-      client_secret: authorization_server_config(:client_secret)
+      client_id: identity_provider(:client_id),
+      client_secret: identity_provider(:client_secret)
     }
     |> Jason.encode!()
   end

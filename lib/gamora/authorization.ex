@@ -3,7 +3,7 @@ defmodule Gamora.Authorization do
 
   @doc """
   Authorizes the user using the access token provided in the request.
-  It calls the authorization server and verifies that the access_token
+  It calls the OpenID Connect Provider and verifies that the access_token
   is valid and has not expired.
 
   ## Examples

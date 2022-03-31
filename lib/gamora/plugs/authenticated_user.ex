@@ -6,8 +6,9 @@ defmodule Gamora.Plugs.AuthenticatedUser do
 
   @moduledoc """
   This plug is in charge to verify and validate the access token
-  that is present in the request. It will try to get the access token
-  from headers for json requests, otherwise from cookies.
+  provided in the request against the OpenID Connect Provider.
+  It will try to get the access token from headers for json requests,
+  otherwise from cookies.
 
   If the access token is valid, the current user will be assigned to the
   connection and the request will continue as normal. In the other hand,
