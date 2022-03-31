@@ -74,7 +74,7 @@ defmodule MyAppWeb.GamoraCallbacks do
   import Phoenix.Controller
 
   @impl Gamora.Callbacks
-  def access_token_error(conn, opts) do
+  def access_token_error(conn, response) do
     conn
     |> put_view(ErrorView)
     |> put_status(:unauthorized)

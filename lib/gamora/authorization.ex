@@ -12,7 +12,7 @@ defmodule Gamora.Authorization do
       {:ok, response}
 
       iex> authorize_access_token("InvalidAccessToken")
-      {:error, :access_token_invalid}
+      {:error, :invalid}
 
   """
   def authorize_access_token(token) do
