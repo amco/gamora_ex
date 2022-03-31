@@ -1,15 +1,14 @@
-# Gamora
+# Gamora OIDC Relying Party
 
-This dependency aims to provide most of the functionality that is
-commonly required in an OpenID Connect Relying Party.
-
-An OIDC Relying Party is an OAuth 2.0 Client application that requires
-user authentication and claims from an OpenID Connect Provider. More
-information about [OpenID Connect](https://openid.net/connect/).
+Gamora aims to provide most of the functionality that is commonly
+required in an OpenID Connect Relying Party. An OIDC Relying Party is
+an OAuth 2.0 Client application that requires user authentication and
+claims from an OpenID Connect Provider (IdP). More information about
+[OpenID Connect](https://openid.net/connect/).
 
 ## Installation
 
-To use 'Gamora' add the dependency to your deps in `mix.exs`:
+To use `Gamora` add the dependency to your deps in `mix.exs`:
 
 ```elixir
 def deps do
@@ -29,7 +28,9 @@ To configure the library use the `config/config.exs` to define `host`,
     identity_provider: [
       host: "https://oidc.com",
       client_id: "MY_APP_CLIENT_ID",
-      client_secret: "MY_APP_CLIENT_SECRET"
+      client_secret: "MY_APP_CLIENT_SECRET",
+      token_path: "/oauth/token" # This is the default
+      introspect_path: "/oauth/introspect", # This is the default
     ]
 ```
 
