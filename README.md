@@ -1,10 +1,11 @@
 # Gamora
 
-This dependency aims to provide most of the functionality required to
-create a OIDC Relying Party.
+This dependency aims to provide most of the functionality that is
+commonly required in an OpenID Connect Relying Party.
 
 An OIDC Relying Party is an OAuth 2.0 Client application that requires
-user authentication and claims from an OpenID Connect Provider.
+user authentication and claims from an OpenID Connect Provider. More
+information about [OpenID Connect](https://openid.net/connect/).
 
 ## Installation
 

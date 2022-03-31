@@ -1,3 +1,3 @@
 defmodule Gamora.Adapters.Request do
-  defdelegate post, to: HTTPoison
+  defdelegate post(url, data, headers), to: HTTPoison
 end

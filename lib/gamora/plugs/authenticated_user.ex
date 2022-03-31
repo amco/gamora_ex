@@ -22,7 +22,7 @@ defmodule Gamora.Plugs.AuthenticatedUser do
     format = Keyword.get(opts, :format, :html)
 
     with {:ok, access_token} <- get_access_token(conn, format),
-         {:ok, response} <- validate_access_token(access_token) do
+         {:ok, _response} <- validate_access_token(access_token) do
       conn
     else
       {:error, error} ->

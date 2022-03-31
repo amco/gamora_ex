@@ -1,5 +1,11 @@
 defmodule Gamora.Authorization.AccessToken do
   alias HTTPoison.Response
+  alias Gamora.Configuration
+
+  defdelegate adapter, to: Configuration
+  defdelegate client_id, to: Configuration.IdentityProvider
+  defdelegate client_secret, to: Configuration.IdentityProvider
+  defdelegate introspect_url, to: Configuration.IdentityProvider
 
   def authorize(token) do
     authorization_request(token)
@@ -7,34 +13,17 @@ defmodule Gamora.Authorization.AccessToken do
   end
 
   defp authorization_request(token) do
-    adapter().post(url(), data(token), [
+    adapter().post(introspect_url(), data(token), [
       {"Content-Type", "application/json"}
     ])
   end
 
-  defp adapter do
-    identity_provider(:adapter)
-  end
-
-  defp url do
-    identity_provider(:host)
-    |> Kernel.<>("/oauth/introspect")
-  end
-
-  defp identity_provider(config) do
-    Mix.Project.get!().project()[:app]
-    |> Application.fetch_env!(:gamora)
-    |> Keyword.fetch!(:identity_provider)
-    |> Keyword.fetch!(config)
-  end
-
   defp data(token) do
-    %{
+    Jason.encode!(%{
       token: token,
-      client_id: identity_provider(:client_id),
-      client_secret: identity_provider(:client_secret)
-    }
-    |> Jason.encode!()
+      client_id: client_id(),
+      client_secret: client_secret()
+    })
   end
 
   defp process_response({:ok, %Response{status_code: 200, body: body}}) do
