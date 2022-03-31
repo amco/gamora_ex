@@ -31,5 +31,6 @@ defmodule Gamora.Authorization.AccessToken do
   end
 
   defp process_response({:ok, %{"active" => true} = data}), do: {:ok, data}
-  defp process_response(_), do: {:error, :access_token_invalid}
+  defp process_response({:ok, %{"active" => false}}), do: {:error, :expired}
+  defp process_response(_), do: {:error, :invalid}
 end
