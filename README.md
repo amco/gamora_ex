@@ -49,7 +49,8 @@ defmodule MyAppWeb.Router do
   # ... pipelines
 
   pipeline :protected do
-    plug Gamora.Plugs.AuthenticatedUser
+    plug Gamora.Plugs.AuthenticatedUser,
+      callbacks: MyAppWeb.GamoraCallbacks
   end
 
   scope "/", MyAppWeb do
@@ -59,6 +60,27 @@ defmodule MyAppWeb.Router do
   end
 
   # ... routes
+end
+```
+
+And define your callbacks module in your application. It may look
+something like the following in a phoenix application:
+
+```elixir
+defmodule MyAppWeb.GamoraCallbacks do
+  @behaviour Gamora.Callbacks
+
+  import Plug.Conn
+  import Phoenix.Controller
+
+  @impl Gamora.Callbacks
+  def access_token_error(conn, opts) do
+    conn
+    |> put_view(ErrorView)
+    |> put_status(:unauthorized)
+    |> render("401.html")
+    |> halt()
+  end
 end
 ```
 
@@ -73,7 +95,9 @@ defmodule MyAppWeb.Router do
   # ... pipelines
 
   pipeline :protected do
-    plug Gamora.Plugs.AuthenticatedUser, format: :json
+    plug Gamora.Plugs.AuthenticatedUser,
+      callbacks: MyAppWeb.GamoraCallbacks,
+      format: :json
   end
 
   # ... routes

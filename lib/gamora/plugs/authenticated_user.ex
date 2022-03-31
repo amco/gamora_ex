@@ -20,13 +20,16 @@ defmodule Gamora.Plugs.AuthenticatedUser do
 
   def call(%Conn{} = conn, opts) do
     format = Keyword.get(opts, :format, :html)
+    callbacks = Keyword.get(opts, :callbacks)
 
     with {:ok, access_token} <- get_access_token(conn, format),
-         {:ok, _response} <- validate_access_token(access_token) do
+         {:ok, response} <- validate_access_token(access_token) do
+      callbacks.access_token_success(conn, response)
       conn
     else
       {:error, error} ->
-        IO.inspect error
+        response = %{error: error, format: format}
+        callbacks.access_token_error(conn, response)
     end
   end
 
